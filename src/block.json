@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "growtype/map",
+  "version": "0.1.0",
+  "title": "Growtype Map",
+  "category": "text",
+  "icon": "flag",
+  "description": "Display map in advanced way.",
+  "attributes": {
+    "shortcode": {
+      "type": "string",
+      "source": "text",
+      "selector": "div"
+    },
+    "map_provider": {
+      "type": "string",
+      "default": "google"
+    },
+    "initial_lat": {
+      "type": "string",
+      "default": ""
+    },
+    "initial_lng": {
+      "type": "string",
+      "default": ""
+    },
+    "initial_marker": {
+      "type": "boolean",
+      "default": true
+    },
+    "initial_zoom": {
+      "type": "string",
+      "default": ""
+    },
+    "map_type": {
+      "type": "string",
+      "default": "location"
+    },
+    "markers": {
+      "type": "string",
+      "default": ""
+    },
+    "marker_icon_image": {
+      "type": "object",
+      "default": ""
+    }
+  },
+  "supports": {
+    "html": false,
+    "align": true
+  },
+  "textdomain": "growtype-map",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

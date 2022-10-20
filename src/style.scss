@@ -1,0 +1,23 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-growtype-map {
+}
+
+.wp-block-group__inner-container {
+  .wp-block-growtype-map {
+    &.alignfull {
+      margin-left: calc(-50vw + 50%);
+      margin-right: calc(-50vw + 50%);
+      max-width: none;
+    }
+
+    .container {
+      padding: 0;
+    }
+  }
+}
