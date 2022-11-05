@@ -19,18 +19,35 @@ class Growtype_Map_Shortcode
     {
         $main_values = $attributes;
 
+        $initial_latlng = $attributes['initial_latlng'] ?? '';
+        $initial_lat = '';
+        $initial_lng = '';
+
+        if (!empty($initial_latlng)) {
+            $initial_lat = explode(',', preg_replace("/\s+/", "", $initial_latlng))[0] ?? '';
+            $initial_lng = explode(',', preg_replace("/\s+/", "", $initial_latlng))[1] ?? '';
+        }
+
         $main_values['static'] = [
             'markersGroups' => [
                 'initial' => [
+                    'map_height' => isset($attributes['map_height']) ? $attributes['map_height'] : '400px',
                     'travelMode' => 'walking',
                     'markers' => [
                         [
-                            'latLng' => $attributes['initial_lat'] . ',' . $attributes['initial_lng'],
+                            'enabled' => $attributes['initial_marker'],
+                            'latLng' => $initial_lat . ',' . $initial_lng,
                             'categories' => [],
                             'locations' => [],
                             'infowindow' => [
-                                'content' => 'test'
+                                'enabled' => isset($attributes['infowindow_enabled']) ? $attributes['infowindow_enabled'] : false,
+                                'content' => isset($attributes['infowindow_content']) ? $attributes['infowindow_content'] : ''
                             ],
+                            'icon' => [
+                                'url' => isset($attributes['marker_icon_image']) ? wp_get_attachment_url($attributes['marker_icon_image']) : '',
+                                'width' => isset($attributes['marker_icon_width']) ? $attributes['marker_icon_width'] : '40',
+                                'height' => isset($attributes['marker_icon_height']) ? $attributes['marker_icon_height'] : '40',
+                            ]
                         ]
                     ],
                     'categories' => [],
@@ -38,12 +55,41 @@ class Growtype_Map_Shortcode
                 ]
             ],
             'initiallyShowAllRoutes' => false,
-            'initialLat' => $attributes['initial_lat'] ?? '',
-            'initialLng' => $attributes['initial_lng'] ?? '',
+            'initialLat' => $initial_lat ?? '',
+            'initialLng' => $initial_lng ?? '',
             'initialZoom' => $attributes['initial_zoom'] ?? 4,
             'initialGroupId' => $attributes['initial_group_id'] ?? 'initial',
             'mapType' => $attributes['map_type'] ?? 'location', //route
         ];
+
+        $plain_markers = isset($attributes['plain_markers']) && !empty($attributes['plain_markers']) ? preg_split("/\r\n|\n|\r/", $attributes['plain_markers']) : [];
+
+        if (!empty($plain_markers)) {
+
+            $plain_markers_formatted = [];
+
+            foreach ($plain_markers as $plain_marker) {
+                $plain_markers_formatted[] = [
+                    'enabled' => 'true',
+                    'latLng' => $plain_marker,
+                    'categories' => [],
+                    'locations' => [],
+                    'infowindow' => [
+                        'enabled' => isset($attributes['infowindow_enabled']) ? $attributes['infowindow_enabled'] : false,
+                        'content' => isset($attributes['infowindow_content']) ? $attributes['infowindow_content'] : ''
+                    ],
+                    'icon' => [
+                        'url' => isset($attributes['marker_icon_image']) ? wp_get_attachment_url($attributes['marker_icon_image']) : '',
+                        'width' => isset($attributes['marker_icon_width']) ? $attributes['marker_icon_width'] : '40',
+                        'height' => isset($attributes['marker_icon_height']) ? $attributes['marker_icon_height'] : '40',
+                    ]
+                ];
+            }
+
+            $markers = array_merge($main_values['static']['markersGroups']['initial']['markers'], $plain_markers_formatted);
+
+            $main_values['static']['markersGroups']['initial']['markers'] = $markers;
+        }
 
         $main_values['map_id'] = bin2hex(random_bytes(20));
 

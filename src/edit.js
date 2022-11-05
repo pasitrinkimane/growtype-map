@@ -62,12 +62,8 @@ function Edit({
     const instanceId = useInstanceId(Edit);
     const inputId = `blocks-shortcode-input-${instanceId}`;
 
-    const updateShortcode = (attribute_key, val, inputType) => {
-        if (inputType === 'custom') {
-            setAttributes({[attribute_key]: val.selectedItem.value})
-        } else {
-            setAttributes({[attribute_key]: val})
-        }
+    const updateShortcode = (attribute_key, val) => {
+        setAttributes({[attribute_key]: val})
 
         let shortcodeTag = '[growtype_map';
         Object.entries(attributes).map(function (element) {
@@ -75,20 +71,36 @@ function Edit({
                 let propertyKey = element[0];
                 let propertyValue = element[1];
 
+                /**
+                 * Find current element
+                 */
                 if (propertyKey === attribute_key) {
-                    if (inputType === 'custom') {
-                        propertyValue = val.selectedItem.value
-                    } else {
-                        propertyValue = val;
-                    }
+                    propertyValue = val;
                 }
 
+                /**
+                 * Check if value is empty
+                 */
+                if (propertyValue === null || propertyValue.toString().length === 0) {
+                    return;
+                }
+
+                /**
+                 * Check if value is boolean
+                 */
                 if (typeof propertyValue === "boolean") {
                     propertyValue = propertyValue ? 'true' : 'false'
                 }
 
-                if (propertyValue.length > 0) {
-                    shortcodeTag += ' ' + propertyKey + '=' + '"' + propertyValue + '"'
+                /**
+                 * Extra check for custom values
+                 */
+                if (propertyKey === 'marker_icon_image') {
+                    propertyValue = propertyValue['id']
+                }
+
+                if (propertyValue.toString().length > 0) {
+                    shortcodeTag += ' ' + propertyKey + '=' + '"' + propertyValue.toString() + '"'
                 }
             }
         })
@@ -134,14 +146,9 @@ function Edit({
                             onChange={(val) => updateShortcode('map_type', val)}
                         />
                         <TextControl
-                            label={__('Initial lat', 'growtype-map')}
-                            onChange={(val) => updateShortcode('initial_lat', val)}
-                            value={attributes.initial_lat}
-                        />
-                        <TextControl
-                            label={__('Initial lng', 'growtype-map')}
-                            onChange={(val) => updateShortcode('initial_lng', val)}
-                            value={attributes.initial_lng}
+                            label={__('Initial LAT&LNG', 'growtype-map')}
+                            onChange={(val) => updateShortcode('initial_latlng', val)}
+                            value={attributes.initial_latlng}
                         />
                         <TextControl
                             label={__('Initial zoom', 'growtype-map')}
@@ -154,7 +161,7 @@ function Edit({
                         icon="admin-plugins"
                     >
                         <ToggleControl
-                            label="Initial marker"
+                            label="Show initial marker"
                             help={
                                 attributes.initial_marker
                                     ? 'Show initial location as marker.'
@@ -163,60 +170,95 @@ function Edit({
                             checked={attributes.initial_marker ? true : false}
                             onChange={(val) => updateShortcode('initial_marker', val)}
                         />
-                        <PanelRow>
-                            <MediaUploadCheck fallback={
-                                <p>{__('To edit the background image, you need permission to upload media.', 'image-selector-example')}</p>}>
-                                <MediaUpload
-                                    onSelect={(media) => {
-                                        setAttributes({
-                                            marker_icon_image: media
-                                        })
-                                    }}
-                                    allowedTypes={['image']}
-                                    value={attributes.marker_icon_image}
-                                    render={({open}) => (
-                                        <Fragment>
-                                            <Button
-                                                style={{
-                                                    marginBottom: "30px"
-                                                }}
-                                                className={'editor-post-featured-image__toggle mb-3'}
-                                                onClick={open}
-                                            >
-                                                {attributes.marker_icon_image_id === null
-                                                    ? __('Set marker icon', 'growtype-map')
-                                                    : __('Upload new marker icon', 'growtype-map')}
-                                            </Button>
-                                        </Fragment>
-                                    )}
-                                />
-                                {
-                                    attributes.marker_icon_image
-                                        ? <img src={attributes.marker_icon_image.url}/>
-                                        : null
-                                }
-                                {
-                                    console.log(attributes, 'attributes.marker_icon_image')
-                                }
-                                {
-                                    attributes.marker_icon_image &&
-                                    <MediaUploadCheck>
-                                        <Button onClick={
-                                            setAttributes({
-                                                marker_icon_image: undefined,
-                                            })
-                                        } isLink isDestructive>
+                        <p>Marker icon</p>
+                        <MediaUploadCheck fallback={
+                            <p>{__('To edit the background image, you need permission to upload media.', 'image-selector-example')}</p>}>
+                            {
+                                !attributes.marker_icon_image
+                                    ? <MediaUpload
+                                        onSelect={(val) => updateShortcode('marker_icon_image', val)}
+                                        allowedTypes={['image']}
+                                        value={attributes.marker_icon_image}
+                                        render={({open}) => (
+                                            <Fragment>
+                                                <Button
+                                                    style={{
+                                                        marginBottom: "30px"
+                                                    }}
+                                                    className={'editor-post-featured-image__toggle mb-3'}
+                                                    onClick={open}
+                                                >
+                                                    {attributes.marker_icon_image === null
+                                                        ? __('Set marker icon', 'growtype-map')
+                                                        : __('Upload new marker icon', 'growtype-map')}
+                                                </Button>
+                                            </Fragment>
+                                        )}
+                                    />
+                                    : ''
+                            }
+                            {
+                                attributes.marker_icon_image
+                                    ? <img src={attributes.marker_icon_image.url}/>
+                                    : ''
+                            }
+                            {
+                                attributes.marker_icon_image ?
+                                    <PanelRow>
+                                        <Button style={{
+                                            marginBottom: "30px"
+                                        }} onClick={(val) => updateShortcode('marker_icon_image', null)} isLink isDestructive>
                                             {__('Remove background image', 'image-selector-example')}
                                         </Button>
-                                    </MediaUploadCheck>
-                                }
-                            </MediaUploadCheck>
-                        </PanelRow>
+                                    </PanelRow>
+                                    : ''
+                            }
+                        </MediaUploadCheck>
+                        <TextControl
+                            label={__('Icon width', 'growtype-map')}
+                            onChange={(val) => updateShortcode('marker_icon_width', val)}
+                            value={attributes.marker_icon_width}
+                        />
+                        <TextControl
+                            label={__('Icon height', 'growtype-map')}
+                            onChange={(val) => updateShortcode('marker_icon_height', val)}
+                            value={attributes.marker_icon_height}
+                        />
                         <TextareaControl
                             label={__('Markers list', 'growtype-map')}
-                            onChange={(val) => updateShortcode('markers', val)}
+                            onChange={(val) => updateShortcode('plain_markers', val)}
                             help={'Values should be separated by ' | '. F.e. 54.709129782082435, 25.280649226804297|54.70984564752917, 25.25554575457772'}
-                            value={attributes.markers}
+                            value={attributes.plain_markers}
+                        />
+                    </PanelBody>
+                    <PanelBody
+                        title={__('Infowindow settings', 'growtype-map')}
+                        icon="admin-plugins"
+                    >
+                        <ToggleControl
+                            label="Enabled"
+                            help={
+                                attributes.infowindow_enabled
+                                    ? 'Infowindow is visible.'
+                                    : 'Infowindow is hidden'
+                            }
+                            checked={attributes.infowindow_enabled ? true : false}
+                            onChange={(val) => updateShortcode('infowindow_enabled', val)}
+                        />
+                        <TextareaControl
+                            label={__('Content', 'growtype-map')}
+                            onChange={(val) => updateShortcode('infowindow_content', val)}
+                            value={attributes.infowindow_content}
+                        />
+                    </PanelBody>
+                    <PanelBody
+                        title={__('Map preview', 'growtype-map')}
+                        icon="admin-plugins"
+                    >
+                        <TextControl
+                            label={__('Map height', 'growtype-map')}
+                            onChange={(val) => updateShortcode('map_height', val)}
+                            value={attributes.map_height}
                         />
                     </PanelBody>
                 </Panel>
@@ -244,7 +286,6 @@ function Edit({
 }
 
 export default withSelect((select, ownProps) => {
-    // console.log(ownProps.attributes.marker_icon_image_id, 'ownProps.attributes.marker_icon_image_id')
     return {
         markerIcon: ownProps.attributes.marker_icon_image_id ? select('core').getMedia(ownProps.attributes.marker_icon_image_id) : null,
     };

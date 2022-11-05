@@ -8,9 +8,6 @@ import {idleListener} from "./partials/listeners/idleListener";
 $ = jQuery;
 
 function growtypeMapInit() {
-
-    console.log(growtypeMap)
-
     $('.growtype-map-container').each(function (index, mapContainer) {
         /**
          * Initial values

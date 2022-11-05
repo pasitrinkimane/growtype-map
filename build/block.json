@@ -17,11 +17,7 @@
       "type": "string",
       "default": "google"
     },
-    "initial_lat": {
-      "type": "string",
-      "default": ""
-    },
-    "initial_lng": {
+    "initial_latlng": {
       "type": "string",
       "default": ""
     },
@@ -37,12 +33,32 @@
       "type": "string",
       "default": "location"
     },
-    "markers": {
+    "plain_markers": {
       "type": "string",
       "default": ""
     },
     "marker_icon_image": {
       "type": "object",
+      "default": ""
+    },
+    "marker_icon_width": {
+      "type": "string",
+      "default": ""
+    },
+    "marker_icon_height": {
+      "type": "string",
+      "default": ""
+    },
+    "infowindow_enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "infowindow_content": {
+      "type": "string",
+      "default": ""
+    },
+    "map_height": {
+      "type": "string",
       "default": ""
     }
   },
