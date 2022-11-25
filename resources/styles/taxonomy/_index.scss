@@ -1,0 +1,38 @@
+.growtype-map-taxonomy {
+  width: 100%;
+
+  .growtype-map-taxonomy-nav {
+    display: flex;
+    gap: 15px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+  }
+
+  .growtype-map-taxonomy-item {
+    .btn-img {
+      max-width: 25px;
+      margin-right: 2px;
+      position: relative;
+      top: -1px;
+    }
+
+    .btn-label {
+      margin: 0;
+      cursor: pointer;
+      position: relative;
+      bottom: -1px;
+    }
+
+    .btn {
+      border: 1px solid #e5e5e5;
+      cursor: pointer;
+      padding-left: 17px;
+      padding-right: 17px;
+
+      &.is-active {
+        background: $color-active;
+        color: white;
+      }
+    }
+  }
+}

@@ -27,15 +27,23 @@
     },
     "initial_zoom": {
       "type": "string",
-      "default": ""
+      "default": "8"
     },
     "map_type": {
       "type": "string",
       "default": "location"
     },
+    "markers_list_type": {
+      "type": "string",
+      "default": "plain"
+    },
     "plain_markers": {
       "type": "string",
       "default": ""
+    },
+    "post_type_markers": {
+      "type": "string",
+      "default": "location"
     },
     "marker_icon_image": {
       "type": "object",
@@ -58,6 +66,14 @@
       "default": ""
     },
     "map_height": {
+      "type": "string",
+      "default": ""
+    },
+    "map_style": {
+      "type": "string",
+      "default": ""
+    },
+    "map_id": {
       "type": "string",
       "default": ""
     }

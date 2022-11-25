@@ -147,10 +147,16 @@ class Growtype_Map_Loader
         require_once GROWTYPE_MAP_PATH . 'includes/helpers/general.php';
 
         /**
-         * Shortcode
+         * Map container shortcode
          */
         require_once GROWTYPE_MAP_PATH . 'includes/methods/shortcodes/class-growtype-map-shortcode.php';
         $this->loader = new Growtype_Map_Shortcode();
+
+        /**
+         * Map markers taxonomy shortcode
+         */
+        require_once GROWTYPE_MAP_PATH . 'includes/methods/shortcodes/class-growtype-map-taxonomy-shortcode.php';
+        $this->loader = new Growtype_Map_Taxonomy_Shortcode();
 
         /**
          * block

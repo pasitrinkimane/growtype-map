@@ -32,7 +32,7 @@ import {
     ColorPalette,
     InspectorControls,
     MediaUpload,
-    MediaUploadCheck
+    MediaUploadCheck, InspectorAdvancedControls
 } from '@wordpress/block-editor';
 
 import {useInstanceId} from '@wordpress/compose';
@@ -64,6 +64,8 @@ function Edit({
 
     const updateShortcode = (attribute_key, val) => {
         setAttributes({[attribute_key]: val})
+
+        let excludedAttributes = ['map_style'];
 
         let shortcodeTag = '[growtype_map';
         Object.entries(attributes).map(function (element) {
@@ -97,6 +99,10 @@ function Edit({
                  */
                 if (propertyKey === 'marker_icon_image') {
                     propertyValue = propertyValue['id']
+                }
+
+                if (excludedAttributes.indexOf(propertyKey) > -1) {
+                    return;
                 }
 
                 if (propertyValue.toString().length > 0) {
@@ -170,7 +176,10 @@ function Edit({
                             checked={attributes.initial_marker ? true : false}
                             onChange={(val) => updateShortcode('initial_marker', val)}
                         />
-                        <p>Marker icon</p>
+                        <p style={{
+                            fontSize: "11px",
+                            textTransform: "uppercase"
+                        }}>Marker icon</p>
                         <MediaUploadCheck fallback={
                             <p>{__('To edit the background image, you need permission to upload media.', 'image-selector-example')}</p>}>
                             {
@@ -215,21 +224,48 @@ function Edit({
                             }
                         </MediaUploadCheck>
                         <TextControl
-                            label={__('Icon width', 'growtype-map')}
+                            label={__('Marker width', 'growtype-map')}
                             onChange={(val) => updateShortcode('marker_icon_width', val)}
                             value={attributes.marker_icon_width}
                         />
                         <TextControl
-                            label={__('Icon height', 'growtype-map')}
+                            label={__('Marker height', 'growtype-map')}
                             onChange={(val) => updateShortcode('marker_icon_height', val)}
                             value={attributes.marker_icon_height}
                         />
-                        <TextareaControl
-                            label={__('Markers list', 'growtype-map')}
-                            onChange={(val) => updateShortcode('plain_markers', val)}
-                            help={'Values should be separated by ' | '. F.e. 54.709129782082435, 25.280649226804297|54.70984564752917, 25.25554575457772'}
-                            value={attributes.plain_markers}
+                        <SelectControl
+                            label="Markers source"
+                            options={[
+                                {
+                                    label: 'Plain',
+                                    value: 'plain',
+                                },
+                                {
+                                    label: 'Post type',
+                                    value: 'post_type',
+                                }
+                            ]}
+                            onChange={(val) => updateShortcode('markers_list_type', val)}
                         />
+                        {
+                            attributes.markers_list_type === 'plain' ?
+                                <div>
+                                    <TextareaControl
+                                        label={__('Plain values', 'growtype-map')}
+                                        onChange={(val) => updateShortcode('plain_markers', val)}
+                                        value={attributes.plain_markers}
+                                    />
+                                    <p style={{
+                                        marginTop: "-25px"
+                                    }}>Values should be separated by new line</p>
+                                </div>
+                                :
+                                <TextControl
+                                    label={__('Post type value', 'growtype-map')}
+                                    onChange={(val) => updateShortcode('post_type_markers', val)}
+                                    value={attributes.post_type_markers}
+                                />
+                        }
                     </PanelBody>
                     <PanelBody
                         title={__('Infowindow settings', 'growtype-map')}
@@ -260,9 +296,27 @@ function Edit({
                             onChange={(val) => updateShortcode('map_height', val)}
                             value={attributes.map_height}
                         />
+                        <TextareaControl
+                            label={__('Map style', 'growtype-map')}
+                            onChange={(val) => setAttributes({map_style: val})}
+                            value={attributes.map_style}
+                        />
+                        <p style={{
+                            marginTop: "-25px"
+                        }}>Custom google maps
+                            style. <a href="https://mapstyle.withgoogle.com/" target="_blank">https://mapstyle.withgoogle.com/</a>.
+                        </p>
                     </PanelBody>
                 </Panel>
             </InspectorControls>
+
+            <InspectorAdvancedControls>
+                <TextControl
+                    label={__('Map ID', 'growtype-map')}
+                    onChange={(val) => updateShortcode('map_id', val)}
+                    value={attributes.map_id}
+                />
+            </InspectorAdvancedControls>
 
             <div {...useBlockProps({className: 'components-placeholder'})}>
                 <label

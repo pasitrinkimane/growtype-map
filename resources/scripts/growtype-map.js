@@ -4,6 +4,7 @@ import {setMapInstance} from "./partials/setMapInstance";
 import {initSearch} from "./partials/search/initSearch";
 import {tilesloadedListener} from "./partials/listeners/tilesloadedListener";
 import {idleListener} from "./partials/listeners/idleListener";
+import {taxonomyFilter} from "./partials/filters/taxonomyFilter";
 
 $ = jQuery;
 
@@ -18,8 +19,8 @@ function growtypeMapInit() {
             mapInstance: null,
             markers: [],
             markerCluster: null,
-            selectedCategories: [],
-            selectedLocations: [],
+            selectedTax: [],
+            selectedTax2: [],
             prevInfoWindow: null,
             visibleMarkersPostsIds: {},
             mapsInitialLoading: true,
@@ -41,6 +42,7 @@ function growtypeMapInit() {
         }
 
         window.growtypeMap[mapId]['dynamic']['mapInstance'] = setMapInstance(
+            mapId,
             mapContainer,
             window.growtypeMap[mapId]['static']['initialLat'],
             window.growtypeMap[mapId]['static']['initialLng'],
@@ -71,6 +73,11 @@ function growtypeMapInit() {
          * idle
          */
         idleListener(mapId)
+
+        /**
+         *
+         */
+        taxonomyFilter(mapId)
     })
 }
 

@@ -2,24 +2,24 @@ function itemExistsWhenFiltersApplied(mapId, categories, locations, groupCategor
     let itemExists = false;
 
     let categoryExists = false;
-    window.growtypeMap[mapId]['dynamic']['selectedCategories'].map(item => {
+    window.growtypeMap[mapId]['dynamic']['selectedTax'].map(item => {
         if ((categories !== null && categories.indexOf(item) != -1) || (groupCategories && groupCategories.indexOf(item) != -1)) {
             categoryExists = true;
         }
     });
 
-    if (categoryExists && selectedAreas.length === 0) {
+    if (categoryExists && window.growtypeMap[mapId]['dynamic']['selectedTax2'].length === 0) {
         return true;
     }
 
     let areaExists = false;
-    window.growtypeMap[mapId]['dynamic']['selectedLocations'].map(item => {
+    window.growtypeMap[mapId]['dynamic']['selectedTax2'].map(item => {
         if ((locations !== null && locations.indexOf(item) != -1) || (groupLocations && groupLocations.indexOf(item) != -1)) {
             areaExists = true;
         }
     });
 
-    if (areaExists && selectedCategories.length === 0) {
+    if (areaExists && selectedTax.length === 0) {
         return true;
     }
 
@@ -27,7 +27,7 @@ function itemExistsWhenFiltersApplied(mapId, categories, locations, groupCategor
         return true;
     }
 
-    if (window.growtypeMap[mapId]['dynamic']['selectedCategories'].length === 0 && window.growtypeMap[mapId]['dynamic']['selectedLocations'].length === 0) {
+    if (window.growtypeMap[mapId]['dynamic']['selectedTax'].length === 0 && window.growtypeMap[mapId]['dynamic']['selectedTax2'].length === 0) {
         return true;
     }
 

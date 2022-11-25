@@ -17,9 +17,37 @@ class Growtype_Map_Block
         ]);
     }
 
-    // Optional: Moved render callback to separate function to keep logic clear
+    /**
+     * @param $block_attributes
+     * @param $content
+     * @return mixed
+     */
     function render_callback_growtype_map($block_attributes, $content)
     {
-        return do_shortcode($content);
+        $shortcode = $this->format_shortcode($block_attributes);
+
+        $shortcode_content = preg_replace('~\[(.+?)\]~', $shortcode, $content);
+
+        return do_shortcode($shortcode_content);
+    }
+
+    /**
+     * @param $block_attributes
+     * @return string
+     */
+    function format_shortcode($block_attributes)
+    {
+        $shortcode = '[growtype_map';
+        foreach ($block_attributes as $key => $value) {
+
+            if ($key === 'map_style' && !empty($value)) {
+                $value = urlencode(json_encode(json_decode($value, true)));
+            }
+
+            $shortcode .= ' ' . $key . '="' . $value . '"';
+        }
+        $shortcode .= ']';
+
+        return $shortcode;
     }
 }
