@@ -116,12 +116,13 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
             let newMarker = new google.maps.Marker(marketData);
 
             /**
-             * infowindow
+             * Infowindow
              */
+            let infowindow = null;
             if (marker.infowindow.enabled === 'true') {
                 const contentString = marker.infowindow ? marker.infowindow.content : '';
 
-                let infowindow = new google.maps.InfoWindow({
+                infowindow = new google.maps.InfoWindow({
                     content: contentString,
                 });
             }

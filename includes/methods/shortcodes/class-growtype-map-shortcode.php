@@ -40,7 +40,7 @@ class Growtype_Map_Shortcode
                             'categories' => [],
                             'locations' => [],
                             'infowindow' => [
-                                'enabled' => isset($attributes['infowindow_enabled']) && !empty($attributes['infowindow_enabled']) ? $attributes['infowindow_enabled'] : 'false',
+                                'enabled' => isset($attributes['infowindow_enabled']) && !empty($attributes['infowindow_enabled']) ? 'true' : 'false',
                                 'content' => isset($attributes['infowindow_content']) ? $attributes['infowindow_content'] : ''
                             ],
                             'icon' => [
@@ -100,7 +100,7 @@ class Growtype_Map_Shortcode
                     'categories' => $additional_marker['categories'] ?? [],
                     'locations' => [],
                     'infowindow' => [
-                        'enabled' => isset($attributes['infowindow_enabled']) && !empty($attributes['infowindow_enabled']) ? $attributes['infowindow_enabled'] : 'false',
+                        'enabled' => isset($attributes['infowindow_enabled']) && !empty($attributes['infowindow_enabled']) ? 'true' : 'false',
                         'content' => isset($attributes['infowindow_content']) ? $attributes['infowindow_content'] : ''
                     ],
                     'icon' => [

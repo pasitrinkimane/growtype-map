@@ -5,6 +5,17 @@
  */
 class Growtype_Map_Block
 {
+    const ATTRIBUTES_FORMATTED_IN_SHORTCODE = [
+        'marker_icon_image' => [
+            'skip' => false,
+            'get_value' => 'id',
+        ],
+        'map_style' => [
+            'skip' => false,
+            'formatting' => true,
+        ]
+    ];
+
     function __construct()
     {
         add_action('init', array ($this, 'create_block_growtype_map_block_init'));
@@ -40,7 +51,15 @@ class Growtype_Map_Block
         $shortcode = '[growtype_map';
         foreach ($block_attributes as $key => $value) {
 
-            if ($key === 'map_style' && !empty($value)) {
+            if (isset(self::ATTRIBUTES_FORMATTED_IN_SHORTCODE[$key]['skip']) && self::ATTRIBUTES_FORMATTED_IN_SHORTCODE[$key]['skip'] === true) {
+                continue;
+            }
+
+            if (isset(self::ATTRIBUTES_FORMATTED_IN_SHORTCODE[$key]['get_value']) && isset($value[self::ATTRIBUTES_FORMATTED_IN_SHORTCODE[$key]['get_value']])) {
+                $value = $value[self::ATTRIBUTES_FORMATTED_IN_SHORTCODE[$key]['get_value']];
+            }
+
+            if (isset(self::ATTRIBUTES_FORMATTED_IN_SHORTCODE[$key]['formatting']) && !empty($value)) {
                 $value = urlencode(json_encode(json_decode($value, true)));
             }
 
