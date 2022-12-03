@@ -53,11 +53,11 @@ class Growtype_Map_Public
         $this->growtype_map = $growtype_map;
         $this->version = $version;
 
-        add_filter('clean_url', array ($this, 'growtype_map_clean_url'), 99, 3);
-        add_action('wp_footer', array ($this, 'growtype_map_add_scripts_to_footer'));
+        add_filter('clean_url', array ($this, 'clean_google_url'), 99, 3);
+        add_action('wp_footer', array ($this, 'add_scripts_to_footer'));
     }
 
-    function growtype_map_clean_url($url, $original_url, $_context)
+    function clean_google_url($url, $original_url, $_context)
     {
         if (strstr($url, "googleapis.com") !== false) {
             $url = str_replace("&#038;", "&", $url); // or $url = $original_url
@@ -69,7 +69,7 @@ class Growtype_Map_Public
     /***
      *
      */
-    function growtype_map_add_scripts_to_footer()
+    function add_scripts_to_footer()
     {
         ?>
         <script type="text/javascript">

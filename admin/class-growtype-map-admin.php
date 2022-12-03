@@ -74,21 +74,7 @@ class Growtype_Map_Admin
      */
     public function enqueue_styles()
     {
-
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in growtype_map as all of the hooks are defined
-         * in that particular class.
-         *
-         * The growtype_map will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
-
-        wp_enqueue_style($this->growtype_map, plugin_dir_url(__FILE__) . 'css/growtype-map-admin.css', array (), $this->version, 'all');
-
+        wp_enqueue_style($this->growtype_map, GROWTYPE_MAP_URL . 'admin/css/growtype-map-admin.css', array (), $this->version, 'all');
     }
 
     /**
@@ -98,21 +84,7 @@ class Growtype_Map_Admin
      */
     public function enqueue_scripts()
     {
-
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in Growtype_Map_Loader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The Growtype_Map_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
-
-        wp_enqueue_script($this->growtype_map, plugin_dir_url(__FILE__) . 'js/growtype-map-admin.js', array ('jquery'), $this->version, false);
-
+        wp_enqueue_script($this->growtype_map, GROWTYPE_MAP_URL . 'admin/js/growtype-map-admin.js', array ('jquery'), $this->version, false);
     }
 
     /**
