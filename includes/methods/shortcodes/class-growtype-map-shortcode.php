@@ -116,7 +116,9 @@ class Growtype_Map_Shortcode
             $main_values['static']['markersGroups']['initial']['markers'] = $markers;
         }
 
-        $main_values['map_id'] = isset($attributes['map_id']) ? $attributes['map_id'] : bin2hex(random_bytes(20));
+        $main_values['map_id'] = isset($attributes['map_id']) && !empty($attributes['map_id']) ? $attributes['map_id'] : bin2hex(random_bytes(20));
+
+//        d($main_values);
 
         /**
          * Pass values to frontend

@@ -36,7 +36,7 @@ class Growtype_Map_i18n
         load_plugin_textdomain(
             'growtype-map',
             false,
-            GROWTYPE_MAP_BASE_NAME . '/languages/'
+            GROWTYPE_MAP_TEXT_DOMAIN . '/languages/'
         );
     }
 }

@@ -17,11 +17,11 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
         /**
          * Clear out the old markers.
          */
-        if (window.growtypeMap[mapId]['dynamic']['markers'] !== undefined && clearOldMarkers) {
-            window.growtypeMap[mapId]['dynamic']['markers'].forEach((markerGroup) => {
-                markerGroup.forEach((marker) => {
-                    marker.setMap(null);
-                });
+        if (Array.isArray(window.growtypeMap[mapId]['dynamic']['markersGroups']) && clearOldMarkers) {
+            Object.values(window.growtypeMap[mapId]['dynamic']['markersGroups']).map((markerGroup) => {
+                markerGroup['markers'].map(function (element) {
+                    element.setMap(null);
+                })
             });
         }
 
@@ -44,7 +44,7 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
         let groupCategories = window.growtypeMap[mapId]['static']['markersGroups'][groupId]['categories']
         let groupLocations = window.growtypeMap[mapId]['static']['markersGroups'][groupId]['locations']
 
-        if (!window.growtypeMap[mapId]['static']['initiallyShowAllRoutes'] && clearOldMarkers) {
+        if (window.growtypeMap[mapId]['static']['initiallyShowAllRoutes'] === 'false' && clearOldMarkers) {
             window.growtypeMap[mapId]['dynamic']['polylines'].map(function (element) {
                 element.setMap(null);
             })
@@ -71,6 +71,11 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
             let latlng = marker.latLng.replace(/\s/g, "").split(",")
             let lat = latlng[0]
             let lng = latlng[1]
+
+            if (!inrange(-90, lat, 90) || !inrange(-180, lng, 180)) {
+                console.error('Growtype Map. Marker is not in range. Marker: ', marker);
+                return false;
+            }
 
             let position = new google.maps.LatLng(lat, lng);
 
@@ -113,6 +118,9 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
                 marketData['icon'] = '#';
             }
 
+            /**
+             * Set marker
+             */
             let newMarker = new google.maps.Marker(marketData);
 
             /**
@@ -127,6 +135,9 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
                 });
             }
 
+            /**
+             * Click event on map
+             */
             google.maps.event.addListener(window.growtypeMap[mapId]['dynamic']['mapInstance'], 'click', function () {
                 if (marker.infowindow.enabled === 'true') {
                     if (infowindow) {
@@ -139,6 +150,9 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
                 }
             });
 
+            /**
+             * Map zoom changed
+             */
             google.maps.event.addListener(window.growtypeMap[mapId]['dynamic']['mapInstance'], 'zoom_changed', function () {
                 if (marker.infowindow.enabled === 'true') {
                     if (window.growtypeMap[mapId]['dynamic']['prevInfoWindow']) {
@@ -159,6 +173,9 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
                 });
             });
 
+            /**
+             * Click event on marker
+             */
             google.maps.event.addListener(newMarker, 'click', function (evt) {
                 if (marker.infowindow.enabled === 'true') {
                     if (window.growtypeMap[mapId]['dynamic']['prevInfoWindow']) {
@@ -175,7 +192,10 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
                 }
             })
 
-            filteredMarkers.push(marker)
+            /**
+             * Return new markers array
+             */
+            filteredMarkers.push(newMarker)
         });
 
         /**
@@ -212,6 +232,16 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
          * Disable loading
          */
         markersLoading = false;
+
+        return filteredMarkers;
+    }
+}
+
+function inrange(min, number, max) {
+    if (!isNaN(number) && (number >= min) && (number <= max)) {
+        return true;
+    } else {
+        return false;
     }
 }
 

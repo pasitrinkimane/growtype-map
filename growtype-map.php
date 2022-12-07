@@ -40,7 +40,7 @@ define('GROWTYPE_MAP_VERSION', '1.0.0');
 /**
  * Plugin base name
  */
-define('GROWTYPE_MAP_BASE_NAME', 'growtype-map');
+define('GROWTYPE_MAP_TEXT_DOMAIN', 'growtype-map');
 
 /**
  * Plugin dir path

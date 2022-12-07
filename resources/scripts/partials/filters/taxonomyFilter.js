@@ -10,7 +10,7 @@ function taxonomyFilter(mapId) {
         /**
          * Reset data
          */
-        if (window.growtypeMap[mapId]['static']['initiallyShowAllRoutes']) {
+        if (window.growtypeMap[mapId]['static']['initiallyShowAllRoutes'] !== 'false') {
             window.growtypeMap[mapId]['dynamic']['currentMarkersGroupId'] = null;
         }
 

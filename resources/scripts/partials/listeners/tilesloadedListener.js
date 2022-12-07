@@ -7,8 +7,8 @@ function tilesloadedListener(mapId) {
     google.maps.event.addListener(window.growtypeMap[mapId]['dynamic']['mapInstance'], "tilesloaded", () => {
         window.growtypeMap[mapId]['dynamic']['markerCluster'].clearMarkers();
 
-        if (window.growtypeMap[mapId]['dynamic']['markers'][window.growtypeMap[mapId]['dynamic']['currentMarkersGroupId']] !== undefined) {
-            const visibleMarkers = window.growtypeMap[mapId]['dynamic']['markers'][window.growtypeMap[mapId]['dynamic']['currentMarkersGroupId']].filter(function (marker) {
+        if (Array.isArray(window.growtypeMap[mapId]['dynamic']['markersGroups'][window.growtypeMap[mapId]['dynamic']['currentMarkersGroupId']]['markers'])) {
+            const visibleMarkers = window.growtypeMap[mapId]['dynamic']['markersGroups'][window.growtypeMap[mapId]['dynamic']['currentMarkersGroupId']]['markers'].filter(function (marker) {
                 return window.growtypeMap[mapId]['dynamic']['mapInstance'].getBounds().contains(marker.getPosition());
             });
 

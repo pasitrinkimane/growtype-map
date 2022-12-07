@@ -17,7 +17,7 @@ function growtypeMapInit() {
 
         window.growtypeMap[mapId]['dynamic'] = {
             mapInstance: null,
-            markers: [],
+            markersGroups: [],
             markerCluster: null,
             selectedTax: [],
             selectedTax2: [],
@@ -35,9 +35,9 @@ function growtypeMapInit() {
         }
 
         /**
-         * set current markers group
+         * Set current markers group
          */
-        if (!window.growtypeMap[mapId]['static']['initiallyShowAllRoutes']) {
+        if (window.growtypeMap[mapId]['static']['initiallyShowAllRoutes'] === 'false') {
             window.growtypeMap[mapId]['dynamic']['currentMarkersGroupId'] = window.growtypeMap[mapId]['static']['initialGroupId']
         }
 

@@ -6,12 +6,12 @@
                 $icon_url = !empty($icon_id) ? wp_get_attachment_url($icon_id) : '';
                 ?>
                 <div class="growtype-map-taxonomy-item">
-                    <a href="#" class="btn" data-tax="<?php echo $taxonomy['tax'] ?>" data-tax2="<?php echo $taxonomy['tax2'] ?>">
+                    <button class="btn" data-tax="<?php echo $taxonomy['tax'] ?>" data-tax2="<?php echo $taxonomy['tax2'] ?>">
                         <?php if (!empty($icon_url)) { ?>
-                            <img src="<?php echo $icon_url ?>" alt="<?php echo $taxonomy['name'] ?>" class="btn-img">
+                            <span class="btn-img"><?php echo growtype_map_render_image($icon_url) ?></span>
                         <?php } ?>
                         <span class="btn-label"><?php echo $taxonomy['name'] ?></span>
-                    </a>
+                    </button>
                 </div>
             <?php } ?>
         </div>
