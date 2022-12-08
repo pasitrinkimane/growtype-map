@@ -47,7 +47,8 @@ class Growtype_Map_Shortcode
                                 'url' => isset($attributes['marker_icon_image']) && !empty($attributes['marker_icon_image']) ? wp_get_attachment_url($attributes['marker_icon_image']) : '',
                                 'width' => isset($attributes['marker_icon_width']) ? $attributes['marker_icon_width'] : '40',
                                 'height' => isset($attributes['marker_icon_height']) ? $attributes['marker_icon_height'] : '40',
-                            ]
+                            ],
+                            'url' => ''
                         ]
                     ],
                     'categories' => [],
@@ -107,7 +108,8 @@ class Growtype_Map_Shortcode
                         'url' => $additional_marker['icon']['url'] ?? (isset($attributes['marker_icon_image']) ? wp_get_attachment_url($attributes['marker_icon_image']) : ''),
                         'width' => isset($attributes['marker_icon_width']) ? $attributes['marker_icon_width'] : '40',
                         'height' => isset($attributes['marker_icon_height']) ? $attributes['marker_icon_height'] : '40',
-                    ]
+                    ],
+                    'url' => isset($attributes['marker_link']) && $attributes['marker_link'] === 'post' ? $additional_marker['url'] : ''
                 ];
             }
 
@@ -117,8 +119,6 @@ class Growtype_Map_Shortcode
         }
 
         $main_values['map_id'] = isset($attributes['map_id']) && !empty($attributes['map_id']) ? $attributes['map_id'] : bin2hex(random_bytes(20));
-
-//        d($main_values);
 
         /**
          * Pass values to frontend

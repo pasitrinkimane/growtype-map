@@ -37,6 +37,10 @@
       "type": "string",
       "default": "plain"
     },
+    "marker_link": {
+      "type": "string",
+      "default": "none"
+    },
     "plain_markers": {
       "type": "string",
       "default": ""

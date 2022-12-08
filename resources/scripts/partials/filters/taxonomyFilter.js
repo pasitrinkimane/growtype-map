@@ -28,7 +28,7 @@ function taxonomyFilter(mapId) {
 
         setTimeout(function () {
             updateMarkers(mapId, window.growtypeMap[mapId]['dynamic']['currentMarkersGroupId'], true)
-            updateMarkersClusters(mapId, [])
+            updateMarkersClusters(mapId, window.growtypeMap[mapId]['dynamic']['markersGroups'][window.growtypeMap[mapId]['dynamic']['currentMarkersGroupId']]['markers'])
         }, 500)
     });
 }

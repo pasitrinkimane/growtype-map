@@ -136,6 +136,7 @@ function Edit({
                                     value: 'google',
                                 }
                             ]}
+                            value={attributes.map_provider}
                             onChange={(val) => updateShortcode('map_provider', val)}
                         />
                         <SelectControl
@@ -149,6 +150,7 @@ function Edit({
                                     label: 'Route',
                                     value: 'route',
                                 }]}
+                            value={attributes.map_type}
                             onChange={(val) => updateShortcode('map_type', val)}
                         />
                         <TextControl
@@ -241,10 +243,11 @@ function Edit({
                                     value: 'plain',
                                 },
                                 {
-                                    label: 'Post type',
+                                    label: 'Post',
                                     value: 'post_type',
                                 }
                             ]}
+                            value={attributes.markers_list_type}
                             onChange={(val) => updateShortcode('markers_list_type', val)}
                         />
                         {
@@ -266,6 +269,20 @@ function Edit({
                                     value={attributes.post_type_markers}
                                 />
                         }
+                        <SelectControl
+                            label="Marker Link"
+                            options={[
+                                {
+                                    label: 'None',
+                                    value: 'none',
+                                },
+                                {
+                                    label: 'Post',
+                                    value: 'post',
+                                }]}
+                            value={attributes.marker_link}
+                            onChange={(val) => updateShortcode('marker_link', val)}
+                        />
                     </PanelBody>
                     <PanelBody
                         title={__('Infowindow settings', 'growtype-map')}

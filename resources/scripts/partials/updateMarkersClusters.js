@@ -2,9 +2,6 @@
  * Update all markers
  */
 function updateMarkersClusters(mapId, markers) {
-
-    console.log(markers, 'markers')
-
     const markerClustererMarkers = markers.filter(function (marker) {
         return !marker.is_featured;
     });

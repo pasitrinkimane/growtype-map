@@ -5,7 +5,7 @@
                 $icon_id = get_term_meta($taxonomy['term_id'], 'tax_icon', true);
                 $icon_url = !empty($icon_id) ? wp_get_attachment_url($icon_id) : '';
                 ?>
-                <div class="growtype-map-taxonomy-item">
+                <div class="growtype-map-taxonomy-item" data-name="<?php echo $taxonomy['tax'] ?>">
                     <button class="btn" data-tax="<?php echo $taxonomy['tax'] ?>" data-tax2="<?php echo $taxonomy['tax2'] ?>">
                         <?php if (!empty($icon_url)) { ?>
                             <span class="btn-img"><?php echo growtype_map_render_image($icon_url) ?></span>

@@ -138,7 +138,7 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
             /**
              * Click event on map
              */
-            google.maps.event.addListener(window.growtypeMap[mapId]['dynamic']['mapInstance'], 'click', function () {
+            google.maps.event.addListener(window.growtypeMap[mapId]['dynamic']['mapInstance'], 'click', function (element) {
                 if (marker.infowindow.enabled === 'true') {
                     if (infowindow) {
                         infowindow.close();
@@ -189,6 +189,10 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
                     });
 
                     window.growtypeMap[mapId]['dynamic']['prevInfoWindow'] = infowindow
+                }
+
+                if (marker.url !== undefined && marker.url.length > 0) {
+                    window.location.href = marker.url;
                 }
             })
 
