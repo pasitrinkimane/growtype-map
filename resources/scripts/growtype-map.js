@@ -5,11 +5,12 @@ import {initSearch} from "./partials/search/initSearch";
 import {tilesloadedListener} from "./partials/listeners/tilesloadedListener";
 import {idleListener} from "./partials/listeners/idleListener";
 import {taxonomyFilter} from "./partials/filters/taxonomyFilter";
+import {getUserLocation} from "./partials/location/getUserLocation";
 
 $ = jQuery;
 
 function growtypeMapInit() {
-    $('.growtype-map-container').each(function (index, mapContainer) {
+    $('.growtype-map-container-wrapper').each(function (index, mapContainer) {
         /**
          * Initial values
          */
@@ -43,11 +44,18 @@ function growtypeMapInit() {
 
         window.growtypeMap[mapId]['dynamic']['mapInstance'] = setMapInstance(
             mapId,
-            mapContainer,
+            $(mapContainer).find('.growtype-map-container').get(0),
             window.growtypeMap[mapId]['static']['initialLat'],
             window.growtypeMap[mapId]['static']['initialLng'],
             window.growtypeMap[mapId]['static']['initialZoom']
         )
+
+        /**
+         * Get user location
+         */
+        if (window.growtypeMap[mapId]['static']['showUserLocation'] === 'true') {
+            getUserLocation(mapId, window.growtypeMap[mapId]['dynamic']['currentMarkersGroupId'])
+        }
 
         /**
          * Set markers

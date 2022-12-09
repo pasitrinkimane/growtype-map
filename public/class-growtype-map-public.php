@@ -124,7 +124,7 @@ class Growtype_Map_Public
          */
         wp_enqueue_script('growtype-map-google-maps-marker-clusterer', GROWTYPE_MAP_URL_PUBLIC . 'plugins/google/markerclusterer.js', [], '', true);
 
-        wp_register_script('growtype-map-google-maps', 'https://maps.googleapis.com/maps/api/js?key=' . get_option('google_maps_api_key') . '&callback=growtypeMapInit&libraries=places&v=weekly', [$this->growtype_map, 'growtype-map-google-maps-marker-clusterer'], '1', true);
+        wp_register_script('growtype-map-google-maps', 'https://maps.googleapis.com/maps/api/js?key=' . get_option('google_maps_api_key') . '&callback=growtypeMapInit&libraries=places,geometry&v=weekly', [$this->growtype_map, 'growtype-map-google-maps-marker-clusterer'], '1', true);
         wp_enqueue_script('growtype-map-google-maps');
     }
 

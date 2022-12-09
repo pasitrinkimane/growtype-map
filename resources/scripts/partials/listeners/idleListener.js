@@ -5,7 +5,7 @@ function idleListener(mapId) {
         if (Array.isArray(window.growtypeMap[mapId]['dynamic']['markersGroups'][window.growtypeMap[mapId]['static']['initialGroupId']])) {
             window.growtypeMap[mapId]['dynamic']['markersGroups'][window.growtypeMap[mapId]['static']['initialGroupId']]['markers'].map(function (marker, index) {
                 if (window.growtypeMap[mapId]['dynamic']['mapInstance'].getBounds().contains(marker.getPosition())) {
-                    if (marker.location_id == $('.growtype-map-container[data-map-id="' + mapId + '"]').attr('main-marker')) {
+                    if (marker.location_id == $('.growtype-map-container-wrapper[data-map-id="' + mapId + '"]').attr('main-marker')) {
                         window.growtypeMap[mapId]['dynamic']['mainMarker'] = {
                             location_id: marker.location_id,
                             index: index
@@ -27,7 +27,7 @@ function idleListener(mapId) {
         /**
          * Open specific marker
          */
-        if (window.growtypeMap[mapId]['dynamic']['mapsInitialLoading'] && $('.growtype-map-container[data-map-id="' + mapId + '"]').attr('infowindow-open') && mainMarker !== null) {
+        if (window.growtypeMap[mapId]['dynamic']['mapsInitialLoading'] && $('.growtype-map-container-wrapper[data-map-id="' + mapId + '"]').attr('infowindow-open') && mainMarker !== null) {
             google.maps.event.trigger(window.growtypeMap[mapId]['dynamic']['markersGroups'][window.growtypeMap[mapId]['static']['initialGroupId']][window.growtypeMap[mapId]['dynamic']['mainMarker'].index], 'click');
         }
 

@@ -5,7 +5,7 @@
  * @param radius
  * @returns {string}
  */
-function createMarker(width, height, radius, text) {
+function createCustomMarker(width, height, radius, text) {
 
     var canvas, context;
 
@@ -47,4 +47,4 @@ function createMarker(width, height, radius, text) {
     return canvas.toDataURL();
 }
 
-export {createMarker};
+export {createCustomMarker};

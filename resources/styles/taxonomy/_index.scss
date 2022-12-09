@@ -43,6 +43,12 @@
       &.is-active {
         background: $color-active;
         color: white;
+
+        svg {
+          path {
+            fill: white;
+          }
+        }
       }
     }
   }

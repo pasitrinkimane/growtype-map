@@ -4,7 +4,7 @@
  * @param clearInitialPosts
  */
 function getMarkersPosts(slickGoToIndex, clearInitialPosts = false) {
-    postsRequested = true;
+    let postsRequested = true;
 
     $('.interactive-map-posts .e-notice').remove();
 
@@ -42,8 +42,6 @@ function getMarkersPosts(slickGoToIndex, clearInitialPosts = false) {
             $('.interactive-map-posts').slick('slickAdd', response.content);
             $('.interactive-map-posts').slick('slickGoTo', slickGoToIndex);
         }
-
-        $('.interactive-map-posts').removeClass('is-loading').find('.spinner-border').remove();
 
         postsRequested = false;
     });

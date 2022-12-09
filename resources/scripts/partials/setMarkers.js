@@ -1,5 +1,6 @@
-import {createMarker} from "./createMarker";
+import {createCustomMarker} from "./markers/createCustomMarker";
 import {itemExistsWhenFiltersApplied} from "./itemExistsWhenFiltersApplied";
+import {loader} from "./loading/loader";
 
 /**
  * @type {boolean}
@@ -9,10 +10,8 @@ let markersLoading = false;
 
 function setMarkers(mapId, groupId, clearOldMarkers = true) {
     if (!markersLoading) {
-        /**
-         * Spinner
-         */
-        $('.growtype-map-container[data-map-id="' + mapId + '"] + .spinner-border').show();
+
+        loader(mapId).show()
 
         /**
          * Clear out the old markers.
@@ -105,7 +104,7 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
             if (typeof marker.icon !== 'undefined' && marker.icon.url) {
                 if (window.growtypeMap[mapId]['static']['map_type'] === 'route') {
                     marketData['icon'] = {
-                        url: createMarker(30, 30, 19, visibleMarkersCounter),
+                        url: createCustomMarker(30, 30, 19, visibleMarkersCounter),
                         // scaledSize: scaletSize, // scaled size
                         origin: new google.maps.Point(0, 0), // origin
                         anchor: new google.maps.Point(15, 20) // anchor
@@ -227,10 +226,7 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
             window.growtypeMap[mapId]['dynamic']['mapInstance'].fitBounds(bounds);
         }
 
-        /**
-         * Spinner
-         */
-        $('.growtype-map-container[data-map-id="' + mapId + '"] + .spinner-border').hide();
+        loader(mapId).hide();
 
         /**
          * Disable loading

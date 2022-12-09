@@ -62,6 +62,14 @@ class Growtype_Map_Shortcode
             'initialGroupId' => $attributes['initial_group_id'] ?? 'initial',
             'mapType' => $attributes['map_type'] ?? 'location', //route
             'mapStyle' => isset($attributes['map_style']) ? json_decode(urldecode($attributes['map_style'])) : json_decode(file_get_contents(GROWTYPE_MAP_PATH . 'resources/data/map/style.json'), true),
+            'showUserLocation' => $attributes['show_user_location'] ?? 'false',
+            'userLocation' => [
+                'icon' => [
+                    'url' => isset($attributes['user_location_marker_icon_image']) && !empty($attributes['user_location_marker_icon_image']) ? wp_get_attachment_url($attributes['user_location_marker_icon_image']) : GROWTYPE_MAP_URL_PUBLIC . 'images/marker-person.svg',
+                    'width' => isset($attributes['marker_icon_width']) ? $attributes['marker_icon_width'] : '30',
+                    'height' => isset($attributes['marker_icon_height']) ? $attributes['marker_icon_height'] : '30',
+                ]
+            ],
         ];
 
         $additional_markers = [];

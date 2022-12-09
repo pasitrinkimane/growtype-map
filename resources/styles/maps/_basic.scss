@@ -2,3 +2,30 @@
   width: 100%;
   min-height: 500px;
 }
+
+.growtype-map-container-wrapper {
+  position: relative;
+
+  .spinner-border {
+    height: 20px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 44%;
+    width: 20px;
+    z-index: 1;
+    display: none;
+  }
+
+  &.is-loading {
+    .spinner-border {
+      display: block;
+    }
+
+    .growtype-map-container {
+      pointer-events: none;
+      opacity: 0.8;
+    }
+  }
+}
