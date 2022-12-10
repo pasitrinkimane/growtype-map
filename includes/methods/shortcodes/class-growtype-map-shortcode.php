@@ -70,6 +70,7 @@ class Growtype_Map_Shortcode
                     'height' => isset($attributes['marker_icon_height']) ? $attributes['marker_icon_height'] : '30',
                 ]
             ],
+            'disableMapDragging' => $attributes['disable_map_dragging'] ?? 'false',
         ];
 
         $additional_markers = [];

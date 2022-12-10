@@ -51,6 +51,13 @@ function growtypeMapInit() {
         )
 
         /**
+         * Disable map dragging
+         */
+        if (window.growtypeMap[mapId]['static']['disableMapDragging']) {
+            window.growtypeMap[mapId]['dynamic']['mapInstance'].setOptions({draggable: false});
+        }
+
+        /**
          * Get user location
          */
         if (window.growtypeMap[mapId]['static']['showUserLocation'] === 'true') {

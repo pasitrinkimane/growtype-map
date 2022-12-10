@@ -25,6 +25,10 @@
       "type": "boolean",
       "default": true
     },
+    "disable_map_dragging": {
+      "type": "boolean",
+      "default": false
+    },
     "initial_zoom": {
       "type": "string",
       "default": "8"

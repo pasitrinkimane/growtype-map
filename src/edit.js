@@ -125,7 +125,7 @@ function Edit({
             <InspectorControls key={'inspector'}>
                 <Panel>
                     <PanelBody
-                        title={__('Main settings', 'growtype-map')}
+                        title={__('Map settings', 'growtype-map')}
                         icon="admin-plugins"
                     >
                         <SelectControl
@@ -162,6 +162,16 @@ function Edit({
                             label={__('Initial zoom', 'growtype-map')}
                             onChange={(val) => updateShortcode('initial_zoom', val)}
                             value={attributes.initial_zoom}
+                        />
+                        <ToggleControl
+                            label="Disable dragging"
+                            help={
+                                attributes.disable_map_dragging
+                                    ? 'Map dragging is disabled.'
+                                    : 'Map dragging is enabled'
+                            }
+                            checked={attributes.disable_map_dragging ? true : false}
+                            onChange={(val) => updateShortcode('disable_map_dragging', val)}
                         />
                     </PanelBody>
                     <PanelBody
