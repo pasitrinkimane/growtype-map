@@ -164,6 +164,16 @@ function Edit({
                             value={attributes.initial_zoom}
                         />
                         <ToggleControl
+                            label="Initially fit bounds"
+                            help={
+                                attributes.initially_fit_bounds
+                                    ? 'Map fits markers bounds.'
+                                    : 'Map relies on initial LAT&LNG'
+                            }
+                            checked={attributes.initially_fit_bounds ? true : false}
+                            onChange={(val) => updateShortcode('initially_fit_bounds', val)}
+                        />
+                        <ToggleControl
                             label="Disable dragging"
                             help={
                                 attributes.disable_map_dragging

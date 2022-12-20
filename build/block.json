@@ -25,6 +25,10 @@
       "type": "boolean",
       "default": true
     },
+    "initially_fit_bounds": {
+      "type": "boolean",
+      "default": true
+    },
     "disable_map_dragging": {
       "type": "boolean",
       "default": false

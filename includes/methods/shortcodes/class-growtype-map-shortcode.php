@@ -59,6 +59,7 @@ class Growtype_Map_Shortcode
             'initialLat' => $initial_lat ?? '',
             'initialLng' => $initial_lng ?? '',
             'initialZoom' => $attributes['initial_zoom'] ?? 4,
+            'initiallyFitBounds' => isset($attributes['initially_fit_bounds']) && !empty($attributes['initially_fit_bounds']) ? 'true' : 'false',
             'initialGroupId' => $attributes['initial_group_id'] ?? 'initial',
             'mapType' => $attributes['map_type'] ?? 'location', //route
             'mapStyle' => isset($attributes['map_style']) ? json_decode(urldecode($attributes['map_style'])) : json_decode(file_get_contents(GROWTYPE_MAP_PATH . 'resources/data/map/style.json'), true),

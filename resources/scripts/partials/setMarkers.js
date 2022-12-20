@@ -80,7 +80,12 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
 
             bounds.extend(position);
 
-            window.growtypeMap[mapId]['dynamic']['mapInstance'].fitBounds(bounds);
+            /**
+             * Fit bounds on initial load
+             */
+            if (window.growtypeMap[mapId]['static']['initiallyFitBounds'] === 'true') {
+                window.growtypeMap[mapId]['dynamic']['mapInstance'].fitBounds(bounds);
+            }
 
             let scaletSize = new google.maps.Size(parseInt(marker.icon.width), parseInt(marker.icon.height));
 
