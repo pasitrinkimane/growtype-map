@@ -40,7 +40,7 @@ class Growtype_Map_Shortcode
                             'categories' => [],
                             'locations' => [],
                             'infowindow' => [
-                                'enabled' => isset($attributes['infowindow_enabled']) && !empty($attributes['infowindow_enabled']) ? 'true' : 'false',
+                                'enabled' => isset($attributes['infowindow_enabled']) && $attributes['infowindow_enabled'] === 'true' ? 'true' : 'false',
                                 'content' => isset($attributes['infowindow_content']) ? $attributes['infowindow_content'] : ''
                             ],
                             'icon' => [
@@ -55,6 +55,8 @@ class Growtype_Map_Shortcode
                     'locations' => []
                 ]
             ],
+            'mapInitType' => $attributes['map_init_type'] ?? 'load',
+            'mapCoverImage' => isset($attributes['map_cover_image']) && !empty($attributes['map_cover_image']) ? wp_get_attachment_url($attributes['map_cover_image']) : '',
             'initiallyShowAllRoutes' => 'false',
             'initialLat' => $initial_lat ?? '',
             'initialLng' => $initial_lng ?? '',

@@ -85,47 +85,24 @@ class Growtype_Map_Public
      */
     public function enqueue_styles()
     {
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in Growtype_Map_Loader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The Growtype_Map_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
         wp_enqueue_style($this->growtype_map, GROWTYPE_MAP_URL_PUBLIC . 'styles/growtype-map.css', array (), $this->version, 'all');
     }
 
     /**
-     * Register the JavaScript for the public-facing side of the site.
-     *
-     * @since    1.0.0
+     * @return void
      */
     public function enqueue_scripts()
     {
         /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in Growtype_Map_Loader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The Growtype_Map_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
-        wp_enqueue_script($this->growtype_map, GROWTYPE_MAP_URL_PUBLIC . 'scripts/growtype-map.js', array ('jquery'), $this->version, true);
-
-        /**
          * Google
          */
         wp_enqueue_script('growtype-map-google-maps-marker-clusterer', GROWTYPE_MAP_URL_PUBLIC . 'plugins/google/markerclusterer.js', [], '', true);
-
         wp_register_script('growtype-map-google-maps', 'https://maps.googleapis.com/maps/api/js?key=' . get_option('google_maps_api_key') . '&callback=growtypeMapInit&libraries=places,geometry&v=weekly', [$this->growtype_map, 'growtype-map-google-maps-marker-clusterer'], '1', true);
         wp_enqueue_script('growtype-map-google-maps');
-    }
 
+        /**
+         * Map scripts
+         */
+        wp_enqueue_script($this->growtype_map, GROWTYPE_MAP_URL_PUBLIC . 'scripts/growtype-map.js', array ('jquery'), $this->version, true);
+    }
 }

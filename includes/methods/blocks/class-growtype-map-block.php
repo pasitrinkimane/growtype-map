@@ -10,6 +10,10 @@ class Growtype_Map_Block
             'skip' => false,
             'get_value' => 'id',
         ],
+        'map_cover_image' => [
+            'skip' => false,
+            'get_value' => 'id',
+        ],
         'map_style' => [
             'skip' => false,
             'formatting' => true,
@@ -63,7 +67,9 @@ class Growtype_Map_Block
                 $value = urlencode(json_encode(json_decode($value, true)));
             }
 
-            $shortcode .= ' ' . $key . '="' . $value . '"';
+            if (!is_array($value)) {
+                $shortcode .= ' ' . $key . '="' . $value . '"';
+            }
         }
         $shortcode .= ']';
 

@@ -6,6 +6,10 @@
 .growtype-map-container-wrapper {
   position: relative;
 
+  &.has-cover {
+    cursor: pointer;
+  }
+
   .spinner-border {
     height: 20px;
     left: 0;

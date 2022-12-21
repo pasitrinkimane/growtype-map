@@ -97,7 +97,7 @@ function Edit({
                 /**
                  * Extra check for custom values
                  */
-                if (propertyKey === 'marker_icon_image') {
+                if (propertyKey === 'marker_icon_image' || propertyKey === 'map_cover_image') {
                     propertyValue = propertyValue['id']
                 }
 
@@ -153,6 +153,20 @@ function Edit({
                             value={attributes.map_type}
                             onChange={(val) => updateShortcode('map_type', val)}
                         />
+                        <SelectControl
+                            label="Map Init Type"
+                            options={[
+                                {
+                                    label: 'Load',
+                                    value: 'load',
+                                },
+                                {
+                                    label: 'Click',
+                                    value: 'click',
+                                }]}
+                            value={attributes.map_init_type}
+                            onChange={(val) => updateShortcode('map_init_type', val)}
+                        />
                         <TextControl
                             label={__('Initial LAT&LNG', 'growtype-map')}
                             onChange={(val) => updateShortcode('initial_latlng', val)}
@@ -203,7 +217,7 @@ function Edit({
                             textTransform: "uppercase"
                         }}>Marker icon</p>
                         <MediaUploadCheck fallback={
-                            <p>{__('To edit the background image, you need permission to upload media.', 'image-selector-example')}</p>}>
+                            <p>{__('To edit the image, you need permission to upload media.', 'growtype-map')}</p>}>
                             {
                                 !attributes.marker_icon_image
                                     ? <MediaUpload
@@ -239,7 +253,7 @@ function Edit({
                                         <Button style={{
                                             marginBottom: "30px"
                                         }} onClick={(val) => updateShortcode('marker_icon_image', null)} isLink isDestructive>
-                                            {__('Remove background image', 'image-selector-example')}
+                                            {__('Remove image', 'growtype-map')}
                                         </Button>
                                     </PanelRow>
                                     : ''
@@ -343,6 +357,54 @@ function Edit({
                         }}>Custom google maps
                             style. <a href="https://mapstyle.withgoogle.com/" target="_blank">https://mapstyle.withgoogle.com/</a>.
                         </p>
+                        <p style={{
+                            fontSize: "11px",
+                            marginTop: "30px",
+                            textTransform: "uppercase"
+                        }}>Marker cover image</p>
+                        <MediaUploadCheck fallback={
+                            <p>{__('To edit the image, you need permission to upload media.', 'growtype-map')}</p>}>
+                            {
+                                !attributes.map_cover_image
+                                    ? <MediaUpload
+                                        onSelect={(val) => updateShortcode('map_cover_image', val)}
+                                        allowedTypes={['image']}
+                                        value={attributes.map_cover_image}
+                                        render={({open}) => (
+                                            <Fragment>
+                                                <Button
+                                                    style={{
+                                                        marginBottom: "30px"
+                                                    }}
+                                                    className={'editor-post-featured-image__toggle mb-3'}
+                                                    onClick={open}
+                                                >
+                                                    {attributes.map_cover_image === null
+                                                        ? __('Set marker cover', 'growtype-map')
+                                                        : __('Upload new marker cover', 'growtype-map')}
+                                                </Button>
+                                            </Fragment>
+                                        )}
+                                    />
+                                    : ''
+                            }
+                            {
+                                attributes.map_cover_image
+                                    ? <img src={attributes.map_cover_image.url}/>
+                                    : ''
+                            }
+                            {
+                                attributes.map_cover_image ?
+                                    <PanelRow>
+                                        <Button style={{
+                                            marginBottom: "30px"
+                                        }} onClick={(val) => updateShortcode('map_cover_image', null)} isLink isDestructive>
+                                            {__('Remove image', 'growtype-map')}
+                                        </Button>
+                                    </PanelRow>
+                                    : ''
+                            }
+                        </MediaUploadCheck>
                     </PanelBody>
                 </Panel>
             </InspectorControls>
@@ -379,5 +441,6 @@ function Edit({
 export default withSelect((select, ownProps) => {
     return {
         markerIcon: ownProps.attributes.marker_icon_image_id ? select('core').getMedia(ownProps.attributes.marker_icon_image_id) : null,
+        markerCover: ownProps.attributes.map_cover_image_id ? select('core').getMedia(ownProps.attributes.map_cover_image_id) : null,
     };
 })(Edit)
