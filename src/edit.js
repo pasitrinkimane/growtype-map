@@ -354,14 +354,13 @@ function Edit({
                         />
                         <p style={{
                             marginTop: "-25px"
-                        }}>Custom google maps
-                            style. <a href="https://mapstyle.withgoogle.com/" target="_blank">https://mapstyle.withgoogle.com/</a>.
+                        }}>{__('Custom google maps style.', 'growtype-map')} <a href="https://mapstyle.withgoogle.com/" target="_blank">https://mapstyle.withgoogle.com/</a>.
                         </p>
                         <p style={{
                             fontSize: "11px",
                             marginTop: "30px",
                             textTransform: "uppercase"
-                        }}>Marker cover image</p>
+                        }}>{__('Map cover image', 'growtype-map')}</p>
                         <MediaUploadCheck fallback={
                             <p>{__('To edit the image, you need permission to upload media.', 'growtype-map')}</p>}>
                             {
