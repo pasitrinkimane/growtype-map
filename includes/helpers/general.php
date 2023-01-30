@@ -57,3 +57,13 @@ if (!function_exists('growtype_map_render_svg')) {
         return $response;
     }
 }
+
+/**
+ *
+ */
+if (!function_exists('growtype_map_google_maps_api_key')) {
+    function growtype_map_google_maps_api_key()
+    {
+        return get_option('growtype_map_google_maps_api_key');
+    }
+}

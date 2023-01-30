@@ -197,14 +197,14 @@ class Growtype_Map_Admin
          */
         register_setting(
             'google_maps_settings', // settings group name
-            'google_maps_api_key', // option name
+            'growtype_map_google_maps_api_key', // option name
             'sanitize_text_field' // sanitization function
         );
 
         add_settings_field(
-            'google_maps_api_key',
+            'growtype_map_google_maps_api_key',
             'Google Maps Api Key',
-            array ($this, 'google_maps_api_key_callback'),
+            array ($this, 'growtype_map_google_maps_api_key_callback'),
             'growtype-map-settings',
             'google_maps_settings'
         );
@@ -214,9 +214,9 @@ class Growtype_Map_Admin
     /**
      * Maps api key input
      */
-    function google_maps_api_key_callback()
+    function growtype_map_google_maps_api_key_callback()
     {
-        $html = '<input type="text" name="google_maps_api_key" style="min-width:400px;" value="' . get_option('google_maps_api_key') . '" />';
+        $html = '<input type="text" name="growtype_map_google_maps_api_key" style="min-width:400px;" value="' . growtype_map_google_maps_api_key() . '" />';
         echo $html;
     }
 }
