@@ -1,3 +1,5 @@
+import {getSingleMarker} from "../getSingleMarker";
+
 /**
  *
  * @param width
@@ -5,31 +7,15 @@
  * @param radius
  * @returns {string}
  */
-function focusMarker() {
-    /**
-     * Target locations
-     */
-    $('.template-locations .btn-target-map').click(function () {
-        let dataId = $(this).attr('data-id');
+function focusMarker(mapId, markerId) {
+    let marker = getSingleMarker(mapId, markerId);
 
-        if (!$(this).hasClass('is-active')) {
-            $('.template-locations .btn-target-map').removeClass('is-active');
-            $(this).addClass('is-active');
+    if (marker) {
+        window.growtypeMap[mapId]['dynamic']['mapInstance'].setCenter(marker.getPosition());
+        window.growtypeMap[mapId]['dynamic']['mapInstance'].setZoom(13);
 
-            let marker = getSingleMarker(dataId);
-
-            if (marker) {
-                mapInstance.setCenter(marker.getPosition());
-                mapInstance.setZoom(17);
-
-                google.maps.event.trigger(marker, 'click');
-
-                if ($(window).width() < 640) {
-                    window.scrollTo(0, 0);
-                }
-            }
-        }
-    });
+        google.maps.event.trigger(marker, 'click');
+    }
 }
 
 export {focusMarker};

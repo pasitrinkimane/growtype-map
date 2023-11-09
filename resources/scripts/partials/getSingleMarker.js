@@ -3,11 +3,11 @@
  * @param markerId
  * @returns {null}
  */
-function getSingleMarker(markerId) {
+function getSingleMarker(mapId, markerId) {
     let marker = null;
 
-    markers[initialGroupId].map(function (element) {
-        if (element.location_id == markerId) {
+    window.growtypeMap[mapId]['dynamic']['markersGroups'][window.growtypeMap[mapId]['dynamic']['currentMarkersGroupId']]['markers'].map(function (element) {
+        if (element.id == markerId) {
             marker = element;
             return false;
         }

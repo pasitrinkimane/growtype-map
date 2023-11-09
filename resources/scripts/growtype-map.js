@@ -84,7 +84,7 @@ function growtypeMapInitMapContainer(mapContainer) {
     /**
      * Disable map dragging
      */
-    if (window.growtypeMap[mapId]['static']['disableMapDragging']) {
+    if (window.growtypeMap[mapId]['static']['disableMapDragging'] === 'true') {
         window.growtypeMap[mapId]['dynamic']['mapInstance'].setOptions({draggable: false});
     }
 

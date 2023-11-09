@@ -28,6 +28,8 @@ class Growtype_Map_Shortcode
             $initial_lng = explode(',', preg_replace("/\s+/", "", $initial_latlng))[1] ?? '';
         }
 
+        $attributes['marker_link'] = isset($attributes['marker_link']) && !empty($attributes['marker_link']) ? $attributes['marker_link'] : 'post';
+
         $main_values['static'] = [
             'markersGroups' => [
                 'initial' => [
@@ -93,7 +95,7 @@ class Growtype_Map_Shortcode
 
                     $locations_data = get_posts($args);
 
-                    $additional_markers = $this->growtype_map_get_additional_markers_data($locations_data);
+                    $additional_markers = $this->growtype_map_get_additional_markers_data_from_posts($locations_data, $attributes);
                 }
             } elseif ($attributes['markers_list_type'] === 'plain') {
                 $plain_markers = isset($attributes['plain_markers']) && !empty($attributes['plain_markers']) ? preg_split("/\r\n|\n|\r/", $attributes['plain_markers']) : [];
@@ -107,21 +109,25 @@ class Growtype_Map_Shortcode
         if (!empty($additional_markers)) {
             $plain_markers_formatted = [];
             foreach ($additional_markers as $additional_marker) {
+                $infowindow_content = isset($additional_marker['infowindow']['content']) && !empty(trim($additional_marker['infowindow']['content'])) ? $additional_marker['infowindow']['content'] : '';
+                $infowindow_enabled = isset($attributes['infowindow_enabled']) && !empty($attributes['infowindow_enabled']) && !empty($infowindow_content) ? 'true' : 'false';
+
                 $plain_markers_formatted[] = [
+                    'id' => isset($additional_marker['id']) ? $additional_marker['id'] : null,
                     'enabled' => 'true',
                     'latLng' => $additional_marker['latLng'],
                     'categories' => $additional_marker['categories'] ?? [],
                     'locations' => [],
                     'infowindow' => [
-                        'enabled' => isset($attributes['infowindow_enabled']) && !empty($attributes['infowindow_enabled']) ? 'true' : 'false',
-                        'content' => isset($attributes['infowindow_content']) ? $attributes['infowindow_content'] : ''
+                        'enabled' => $infowindow_enabled,
+                        'content' => $infowindow_content
                     ],
                     'icon' => [
                         'url' => $additional_marker['icon']['url'] ?? (isset($attributes['marker_icon_image']) ? wp_get_attachment_url($attributes['marker_icon_image']) : ''),
                         'width' => isset($attributes['marker_icon_width']) ? $attributes['marker_icon_width'] : '40',
                         'height' => isset($attributes['marker_icon_height']) ? $attributes['marker_icon_height'] : '40',
                     ],
-                    'url' => isset($attributes['marker_link']) && $attributes['marker_link'] === 'post' ? $additional_marker['url'] : ''
+                    'url' => $infowindow_enabled === 'false' && isset($additional_marker['url']) && isset($attributes['marker_link']) && $attributes['marker_link'] === 'post' ? $additional_marker['url'] : ''
                 ];
             }
 
@@ -135,7 +141,7 @@ class Growtype_Map_Shortcode
         /**
          * Pass values to frontend
          */
-        add_action('wp_footer', function () use ($main_values) { // 🎉
+        add_action('wp_footer', function () use ($main_values) {
             ?>
             <script type="text/javascript">
                 window.growtypeMap['<?php echo $main_values['map_id'] ?>'] = {
@@ -148,7 +154,7 @@ class Growtype_Map_Shortcode
         return growtype_map_include_view('map.container', $main_values);
     }
 
-    function growtype_map_get_additional_markers_data($locations_data)
+    function growtype_map_get_additional_markers_data_from_posts($locations_data, $attributes = [])
     {
         $markers = [];
         foreach ($locations_data as $location_data) {
@@ -156,8 +162,8 @@ class Growtype_Map_Shortcode
 
             if (empty($location)) {
                 $location = [
-                    'lat' => get_field('location_location_lat', $location_data),
-                    'lng' => get_field('location_location_lng', $location_data),
+                    'lat' => get_field('location_lat', $location_data),
+                    'lng' => get_field('location_lng', $location_data),
                 ];
 
                 if (empty($location['lat']) || empty($location['lng'])) {
@@ -176,14 +182,40 @@ class Growtype_Map_Shortcode
              */
             $marker_icon_custom_id = isset($categories_terms[0]) ? get_term_meta($categories_terms[0]->term_id, 'pin_icon', true) : null;
 
-            $marker_icon = '';
+            $marker_icon = isset($attributes['marker_icon_image']) ? wp_get_attachment_url($attributes['marker_icon_image']) : '';
             if (!empty($marker_icon_custom_id)) {
                 $marker_icon = wp_get_attachment_url($marker_icon_custom_id);
             }
 
-            $feat_img = !empty($location_data->ID) ? get_the_post_thumbnail_url($location_data, 'thumbnail') : null;
+            $feat_img_url = !empty($location_data->ID) ? get_the_post_thumbnail_url($location_data, 'thumbnail') : null;
 
-            $infowindow_content = '';
+            /**
+             * Infowindow content
+             */
+            $infowindow_text = $location_data->post_excerpt;
+            $infowindow_text = empty($infowindow_text) && !empty($location_data->post_content) ? mb_substr($location_data->post_content, 0, 60) . '...' : $infowindow_text;
+
+            ob_start();
+            ?>
+            <?php if (!empty($feat_img_url) || !empty($infowindow_text)) { ?>
+                <div class="infowindow-content" style="max-width: 200px;min-width: 200px;">
+                    <?php if (!empty($feat_img_url)) { ?>
+                        <div style="padding-bottom: 10px;">
+                            <div style="background: url('<?php echo $feat_img_url ?>');background-size: cover;background-position: center;min-height: 110px;"></div>
+                        </div>
+                    <?php } ?>
+                    <?php if (!empty($infowindow_text)) { ?>
+                        <div>
+                            <?php echo $infowindow_text ?>
+                        </div>
+                    <?php } ?>
+                    <div style="padding-top: 10px;">
+                        <a href="<?php echo get_permalink($location_data->ID) ?>" style="font-size: 12px;"><?php echo __('Plačiau', 'growtype-map') ?></a>
+                    </div>
+                </div>
+            <?php } ?>
+            <?php
+            $infowindow_content = ob_get_clean();
 
             array_push($markers, [
                 'latLng' => $location['lat'] . ',' . $location['lng'],
@@ -195,7 +227,6 @@ class Growtype_Map_Shortcode
                 'pin_icon_exists' => !empty($pin_icon_custom),
                 'title' => $location_data->post_title ?? null,
                 'address' => $location['address'] ?? null,
-                'image' => $feat_img,
                 'url' => !empty($location_data->ID) ? get_permalink($location_data->ID) : null,
                 'id' => !empty($location_data->ID) ? $location_data->ID : null,
                 'infowindow' => [

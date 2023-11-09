@@ -33,12 +33,10 @@ function getMarkersPosts(slickGoToIndex, clearInitialPosts = false) {
     }).done(function (response) {
 
         if (response.content.length === 0) {
-            lastPostWasRetrieved = true;
             if (clearInitialPosts) {
                 $('.interactive-map-posts').append('<p class="e-notice">Įrašų nerasta</p>')
             }
         } else {
-            lastPostWasRetrieved = false;
             $('.interactive-map-posts').slick('slickAdd', response.content);
             $('.interactive-map-posts').slick('slickGoTo', slickGoToIndex);
         }

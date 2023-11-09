@@ -57,6 +57,17 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
                 return false;
             }
 
+            /**
+             * Check for ids
+             */
+            if (
+                window.growtypeMap[mapId]['dynamic']['currentlyVisibleMarkersIds']
+                && !window.growtypeMap[mapId]['dynamic']['currentlyVisibleMarkersIds'].includes(marker.id.toString())
+                && window.growtypeMap[mapId]['dynamic']['currentlyVisibleMarkersIds'].length > 0
+            ) {
+                return false;
+            }
+
             if (window.growtypeMap[mapId]['dynamic']['currentMarkersGroupId']) {
                 if (window.growtypeMap[mapId]['dynamic']['currentMarkersGroupId'] !== groupId) {
                     return false;
@@ -101,6 +112,7 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
             }
 
             let marketData = {
+                id: marker.id,
                 position: position,
                 optimized: true,
                 map: window.growtypeMap[mapId]['dynamic']['mapInstance'],
