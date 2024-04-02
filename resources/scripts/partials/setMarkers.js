@@ -63,6 +63,7 @@ function setMarkers(mapId, groupId, clearOldMarkers = true) {
             if (
                 window.growtypeMap[mapId]['dynamic']['currentlyVisibleMarkersIds']
                 && !window.growtypeMap[mapId]['dynamic']['currentlyVisibleMarkersIds'].includes(marker.id.toString())
+                && !window.growtypeMap[mapId]['dynamic']['currentlyVisibleMarkersIds'].includes(marker.id)
                 && window.growtypeMap[mapId]['dynamic']['currentlyVisibleMarkersIds'].length > 0
             ) {
                 return false;
