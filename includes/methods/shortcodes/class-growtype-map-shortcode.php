@@ -19,13 +19,21 @@ class Growtype_Map_Shortcode
     {
         $transient_name = 'growtype_map_main_values';
 
-        foreach ($attributes as $attribute) {
+        foreach ($attributes as $key => $attribute) {
+            if (in_array($key, ['transient'])) {
+                continue;
+            }
+
             $transient_name .= '_' . trim($attribute);
         }
 
         $transient_name = substr($transient_name, 0, 150);
 
-        $main_values = get_transient($transient_name);
+        if (isset($attributes['transient']) && $attributes['transient'] === 'false') {
+            $main_values = [];
+        } else {
+            $main_values = get_transient($transient_name);
+        }
 
         if (!$main_values) {
             $main_values = [];
@@ -57,8 +65,8 @@ class Growtype_Map_Shortcode
                                     'content' => isset($attributes['infowindow_content']) ? $attributes['infowindow_content'] : ''
                                 ],
                                 'icon' => [
-                                    'url' => isset($attributes['marker_icon_image']) && !empty($attributes['marker_icon_image']) ? wp_get_attachment_url($attributes['marker_icon_image']) : '',
-                                    'width' => isset($attributes['marker_icon_width']) ? $attributes['marker_icon_width'] : '40',
+                                    'url' => isset($attributes['marker_icon_image']) && !empty($attributes['marker_icon_image']) ? wp_get_attachment_url($attributes['marker_icon_image']) : GROWTYPE_MAP_URL_PUBLIC . 'icons/marker.svg',
+                                    'width' => isset($attributes['marker_icon_width']) ? $attributes['marker_icon_width'] : '28',
                                     'height' => isset($attributes['marker_icon_height']) ? $attributes['marker_icon_height'] : '40',
                                 ],
                                 'url' => ''
